@@ -2,7 +2,7 @@ import React from 'react';
 import { HTSProvider } from './src/context';
 import App from './src/navigations';
 
-const PersonalHealth = (props) => {
+const HTS = (props) => {
   return (
     <HTSProvider>
       <App {...props} />
@@ -10,6 +10,6 @@ const PersonalHealth = (props) => {
   );
 };
 
-export default PersonalHealth;
+export default HTS;
 
 export { initHTSConfig } from './src/configs';

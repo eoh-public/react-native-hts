@@ -1,15 +1,15 @@
 import React from 'react';
-import { PHProvider } from './src/context';
+import { HTSProvider } from './src/context';
 import App from './src/navigations';
 
 const PersonalHealth = (props) => {
   return (
-    <PHProvider>
+    <HTSProvider>
       <App {...props} />
-    </PHProvider>
+    </HTSProvider>
   );
 };
 
 export default PersonalHealth;
 
-export { initPHConfig } from './src/configs';
+export { initHTSConfig } from './src/configs';

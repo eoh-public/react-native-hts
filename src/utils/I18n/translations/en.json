@@ -1,0 +1,19 @@
+{
+  "gas_leak_detection": "Gas leak detection",
+  "no_leak": "No leak",
+  "humidity": "Humidity",
+  "freezer_temperature": "Freezer Temperature",
+  "water_filter_system": "Water Filter System",
+  "tank_is_working_normally": "Tank is working normally.",
+  "TDS_in": "TDS in",
+  "TDS_out": "TDS out",
+  "safe": "Safe",
+  "pure": "Pure",
+  "electricity": "Electricity",
+  "total_consumption": "Total Consumption",
+  "cost_of_use": "Cost of use",
+  "than_yesterday": "%{percent}% than yesterday",
+  "freezer_temperature_is_out_of_range": "Freezer Temperature is out of range",
+  "disConnected": "Disconnected",
+  "replace_now": "Replace now"
+}

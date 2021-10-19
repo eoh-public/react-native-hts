@@ -1,0 +1,19 @@
+{
+  "gas_leak_detection": "Phát hiện rò rỉ khí",
+  "no_leak": "Không bị rò rỉ",
+  "humidity": "Độ ẩm",
+  "freezer_temperature": "Nhiệt độ ngăn đông",
+  "water_filter_system": "Hệ thống lọc nước",
+  "tank_is_working_normally": "Bể đang hoạt động bình thường.",
+  "TDS_in": "TDS in",
+  "TDS_out": "TDS ra",
+  "safe": "An toàn",
+  "pure": "Tinh khiết",
+  "electricity": "Điện",
+  "total_consumption": "Tổng mức tiêu thụ",
+  "cost_of_use": "Chi phí sử dụng",
+  "than_yesterday": "%{percent}% so với ngày hôm qua",
+  "freezer_temperature_is_out_of_range": "Nhiệt độ ngăn đá nằm ngoài phạm vi",
+  "disConnected": "Đã ngắt kết nối",
+  "replace_now": "Thay thế ngay bây giờ"
+}

@@ -15,5 +15,9 @@
   "than_yesterday": "%{percent}% than yesterday",
   "freezer_temperature_is_out_of_range": "Freezer Temperature is out of range",
   "disConnected": "Disconnected",
+  "tds_in": "TDS in",
+  "tds_out": "TDS out",
+  "water_filter_status_safe": "safe",
+  "water_filter_status_pure": "pure",
   "replace_now": "Replace now"
 }

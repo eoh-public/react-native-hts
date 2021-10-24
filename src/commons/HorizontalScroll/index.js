@@ -27,7 +27,7 @@ const HorizontalScroll = ({ listStation = [], onSnapToItem, indexStation }) => {
         <Text
           style={[styles.title, index === indexStation && styles.titleActive]}
         >
-          {item?.text}
+          {item?.name}
         </Text>
         {index !== data.length - 1 && <View style={styles.viewSeparated} />}
       </TouchableOpacity>

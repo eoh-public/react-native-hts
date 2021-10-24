@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   getBottomSpace,
   getStatusBarHeight,
@@ -32,16 +32,10 @@ export default StyleSheet.create({
     fontSize: 36,
     fontWeight: 'bold',
     color: Colors.White,
-    marginTop: Platform.select({
-      android: -10,
-      ios: 0,
-    }),
+    marginTop: -10,
   },
   navbar: {
-    marginTop: Platform.select({
-      android: -20,
-      ios: 0,
-    }),
+    marginTop: -20,
   },
   topContent: {
     marginTop: 18,

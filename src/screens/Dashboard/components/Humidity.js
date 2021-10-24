@@ -8,6 +8,7 @@ import React from "react";
 const STATUS = {}
 
 const Humidity = ({device}) => {
+  const data = device.data.humidity_device;
   const isLeak = device.status === STATUS.LEAK;
   const isDisconnected = device.status === STATUS.DISCONECTED;
   const leakStyles = isLeak && styles.leak;
@@ -25,7 +26,7 @@ const Humidity = ({device}) => {
         color={Colors.White}
         semibold
       >
-        {isDisconnected ? t('disConnected') : device.data.humidity + '%'}
+        {isDisconnected ? t('disConnected') : data.humidity + '%'}
       </Text>
       {renderTimeDisConnect()}
     </View>

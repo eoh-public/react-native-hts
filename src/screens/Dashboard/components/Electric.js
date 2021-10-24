@@ -18,6 +18,7 @@ const Electric = ({device}) => {
   const textLeakStyles = isLeak && styles.textLeak;
   const renderTimeDisConnect = () => {
   };
+  const data = device.data.electric_device;
   return (
     <View style={styles.wrapTemp}>
       <Text type="Label" color={Colors.RobRoy}>
@@ -44,7 +45,7 @@ const Electric = ({device}) => {
               color={Colors.White}
               semibold
             >
-              {device.data.total_consumption + ' kWh'}
+              {data.total_consumption + ' kWh'}
             </Text>
             <View style={styles.row}>
               <Image
@@ -54,9 +55,9 @@ const Electric = ({device}) => {
               />
               <Text style={styles.desElectric}>
                 {
-                  device.data.diff_consumption_yesterday > 0
-                    ? t('than_yesterday', {percent: device.data.diff_consumption_yesterday})
-                    : t('less_yesterday', {percent: -device.data.diff_consumption_yesterday})
+                  data.diff_consumption_yesterday > 0
+                    ? t('than_yesterday', {percent: data.diff_consumption_yesterday})
+                    : t('less_yesterday', {percent: -data.diff_consumption_yesterday})
                 }
               </Text>
             </View>
@@ -71,7 +72,7 @@ const Electric = ({device}) => {
               color={Colors.White}
               semibold
             >
-              {device.data.total_consumption}
+              {data.total_consumption}
             </Text>
             <View style={styles.row}>
               <Image
@@ -81,9 +82,9 @@ const Electric = ({device}) => {
               />
               <Text style={styles.desElectric}>
                 {
-                  device.data.diff_cost_yesterday > 0
-                    ? t('than_yesterday', {percent: device.data.diff_cost_yesterday})
-                    : t('less_yesterday', {percent: -device.data.diff_cost_yesterday})
+                  data.diff_cost_yesterday > 0
+                    ? t('than_yesterday', {percent: data.diff_cost_yesterday})
+                    : t('less_yesterday', {percent: -data.diff_cost_yesterday})
                 }
               </Text>
             </View>

@@ -8,6 +8,7 @@ import React from "react";
 const STATUS = {};
 
 const WaterFilter = ({device}) => {
+  const data = device.data.water_filter_device;
   const isLeak = device.status === STATUS.LEAK;
   const isDisconnected = device.status === STATUS.DISCONECTED;
   const leakStyles = isLeak && styles.leak;
@@ -73,7 +74,7 @@ const WaterFilter = ({device}) => {
               color={Colors.White}
               semibold
             >
-              {device.data.tds_in + ' PPM'}
+              {data.tds_in + ' PPM'}
             </Text>
             <Text
               style={styles.humidityValue}
@@ -81,7 +82,7 @@ const WaterFilter = ({device}) => {
               color={Colors.CornflowerBlu}
               semibold
             >
-              {t('water_filter_status_' + device.data.in_status)}
+              {t('water_filter_status_' + data.in_status)}
             </Text>
           </View>
           <View style={[styles.wrapDes, styles.wrapDes3]}>
@@ -94,7 +95,7 @@ const WaterFilter = ({device}) => {
               color={Colors.White}
               semibold
             >
-              {device.data.tds_out + ' PPM'}
+              {data.tds_out + ' PPM'}
             </Text>
             <Text
               style={styles.humidityValue}
@@ -102,7 +103,7 @@ const WaterFilter = ({device}) => {
               color={Colors.Mantis}
               semibold
             >
-              {t('water_filter_status_' + device.data.out_status)}
+              {t('water_filter_status_' + data.out_status)}
             </Text>
           </View>
         </View>

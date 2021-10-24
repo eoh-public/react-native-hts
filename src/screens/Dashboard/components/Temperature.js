@@ -8,6 +8,7 @@ import React from "react";
 const STATUS = {}
 
 const Temperature = ({device}) => {
+  const data = device.data.temperature_device;
   const isLeak = device.status === STATUS.LEAK;
   const isDisconnected = device.status === STATUS.DISCONECTED;
   const leakStyles = isLeak && styles.leak;
@@ -29,7 +30,7 @@ const Temperature = ({device}) => {
         color={Colors.White}
         semibold
       >
-        {isDisconnected ? t('disconnected') : device.data.temp + ' ' + device.data.unit}
+        {isDisconnected ? t('disconnected') : data.temp + ' ' + data.unit}
       </Text>
       {renderTimeDisConnect()}
     </View>

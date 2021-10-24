@@ -28,6 +28,7 @@ const STATUS = {
 
 
 const GasLeak = ({device}) => {
+  const data = device.data.gas_leak_device;
   const isLeak = device.status === STATUS.LEAK;
   const isDisconnected = device.status === STATUS.DISCONECTED;
   const leakStyles = isLeak && styles.leak;
@@ -46,7 +47,7 @@ const GasLeak = ({device}) => {
         semibold
       >
         {isLeak
-          ? showTimeLeak(device.data.from)
+          ? showTimeLeak(data.start)
           : t(isDisconnected ? 'disConnected' : 'no_leak')}
       </Text>
       {renderTimeDisConnect()}

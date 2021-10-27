@@ -1,6 +1,7 @@
 const Routes = {
   HTStack: 'HTStack',
-  Dashboard:'Dashboard'
+  Dashboard:'Dashboard',
+  Device:'Device',
 };
 
 export default Routes;

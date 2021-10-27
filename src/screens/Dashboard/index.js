@@ -10,6 +10,7 @@ import styles from './Styles/indexStyles';
 import { HTSContext } from '../../context';
 import NavBar from '../../commons/NavBar';
 import {axiosGet} from "../../utils/Apis/axios";
+import API from '../../configs/API'
 
 const Dashboard = () => {
   const { setAction } = useContext(HTSContext);
@@ -33,9 +34,10 @@ const Dashboard = () => {
   }, []);
 
   const fetchData = useCallback(async () => {
-      const {data, success} = await axiosGet('http://10.0.2.2:8000/api/hts/units/');
-      console.log('unit', data[0]);
-      setUnit(data[0]);  // todo select unit
+      const {data, success} = await axiosGet(API.UNITS.LIST());
+      if (success && data.length) {
+        setUnit(data[0]);  // todo select unit
+      }
   }, []);
 
   const reload = useCallback(() => {

@@ -1,35 +1,48 @@
-import { Colors, Images } from '@eohjsc/react-native-hts/src/configs';
+import { Colors, Images } from '../../configs';
 import moment from 'moment';
-import React, { useContext, useState, useCallback, useMemo } from 'react';
+import React, {useContext, useState, useCallback, useMemo, useEffect} from 'react';
 import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Text from '../../commons/Text';
 import { t } from 'i18n-js';
+import Device from './components/Device'
 
 import styles from './Styles/indexStyles';
-import { HTSContext } from '@eohjsc/react-native-hts/src/context';
-import NavBar from '@eohjsc/react-native-hts/src/commons/NavBar';
-
-const STATUS = {
-  NO_LEAK: 'NO_LEAK',
-  LEAK: 'LEAK',
-  DISCONECTED: 'DISCONECTED',
-};
+import { HTSContext } from '../../context';
+import NavBar from '../../commons/NavBar';
+import {axiosGet} from "../../utils/Apis/axios";
+import API from '../../configs/API'
 
 const Dashboard = () => {
   const { setAction } = useContext(HTSContext);
-  const data = useMemo(
-    () => [
-      { text: 'Kitchen' },
-      { text: 'Kitchen2' },
-      { text: 'Kitchen3' },
-      { text: 'Kitchen4' },
-    ],
-    []
-  );
-  const [listStation, setListStation] = useState(data);
-  const [listMenuItem, setListMenuItem] = useState(data);
+  const [unit, setUnit] = useState({});
+  const listStation = useMemo(() => {
+    if (!unit.stations) {
+      return [];
+    }
+    return unit.stations;
+  }, [unit])
+  const listMenuItem = useMemo(() => {
+    if (!unit.stations) {
+      return [];
+    }
+    return unit.stations.map((v) => ({text: v.name}));
+  }, [unit]);
   const [indexStation, setIndexStation] = useState(0);
-  const [status, setStatus] = useState(STATUS.NO_LEAK);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = useCallback(async () => {
+      const {data, success} = await axiosGet(API.UNITS.LIST());
+      if (success && data.length) {
+        setUnit(data[0]);  // todo select unit
+      }
+  }, []);
+
+  const reload = useCallback(() => {
+    fetchData();
+  }, []);
 
   const onExittApp = () => {
     setAction('EXIT_APP', true);
@@ -44,15 +57,12 @@ const Dashboard = () => {
   );
 
   const onChangeStatus = useCallback(() => {
-    setStatus(STATUS.DISCONECTED);
-  }, [status]);
+    //setStatus(STATUS.DISCONECTED);
+  }, []);
+
+  console.log(listStation[indexStation] && listStation[indexStation].devices);
 
   const renderContent = useMemo(() => {
-    const isLeak = status === STATUS.LEAK;
-    const isDisconnected = status === STATUS.DISCONECTED;
-    const leakStyles = isLeak && styles.leak;
-    const textLeakStyles = isLeak && styles.textLeak;
-
     const renderTimeDisConnect = () =>
       isDisconnected && (
         <Text style={styles.desElectric}>
@@ -65,217 +75,16 @@ const Dashboard = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainerStyle}
       >
-        <View style={styles.topContent}>
-          <View style={[styles.wrapDes, leakStyles]}>
-            <Text style={textLeakStyles} type="Label" color={Colors.RobRoy}>
-              {t('gas_leak_detection')}
-            </Text>
-            <Text
-              style={styles.humidityValue}
-              type="H3"
-              color={Colors.White}
-              semibold
-            >
-              {isLeak
-                ? '15:04:32'
-                : t(isDisconnected ? 'disConnected' : 'no_leak')}
-            </Text>
-            {renderTimeDisConnect()}
-          </View>
-          <View style={[styles.wrapDes, styles.wraphumidity, leakStyles]}>
-            <Text style={textLeakStyles} type="Label" color={Colors.RobRoy}>
-              {t('humidity')}
-            </Text>
-            <Text
-              style={styles.humidityValue}
-              type="H3"
-              color={Colors.White}
-              semibold
-            >
-              {isDisconnected ? t('disConnected') : '57%'}
-            </Text>
-            {renderTimeDisConnect()}
-          </View>
-        </View>
-        <View style={[styles.wrapTemp, leakStyles]}>
-          <Text style={textLeakStyles} type="Label" color={Colors.RobRoy}>
-            {t(
-              isLeak
-                ? 'freezer_temperature_is_out_of_range'
-                : 'freezer_temperature'
-            )}
-          </Text>
-          <Text
-            style={styles.humidityValue}
-            type="H3"
-            color={Colors.White}
-            semibold
-          >
-            {isDisconnected ? t('disconnected') : '2 °C'}
-          </Text>
-          {renderTimeDisConnect()}
-        </View>
-        <View style={styles.wrapTemp}>
-          <Text type="Label" color={Colors.RobRoy}>
-            {t('water_filter_system')}
-          </Text>
-          {isLeak ? (
-            <View style={{ marginBottom: 10 }}>
-              <View style={[styles.wrapLeadItem]}>
-                <Text
-                  style={styles.humidityValue}
-                  type="H4"
-                  color={Colors.White}
-                  semibold
-                >
-                  {'Filter 2'}
-                </Text>
-                <Text style={textLeakStyles} type="Label">
-                  {t('replace_now')}
-                </Text>
-              </View>
-              <View style={[styles.wrapLeadItem, styles.wrapLeadItem2]}>
-                <Text
-                  style={styles.humidityValue}
-                  type="H4"
-                  color={Colors.White}
-                  semibold
-                >
-                  {'Filter 3'}
-                </Text>
-                <Text style={textLeakStyles} type="Label">
-                  {t('replace_now')}
-                </Text>
-              </View>
-            </View>
-          ) : (
-            <Text
-              style={styles.humidityValue}
-              type="H4"
-              color={Colors.White}
-              semibold
-            >
-              {t(isDisconnected ? 'disConnected' : 'tank_is_working_normally')}
-            </Text>
-          )}
-
-          {isDisconnected ? (
-            renderTimeDisConnect()
-          ) : (
-            <View style={styles.row}>
-              <View style={[styles.wrapDes, styles.wrapDes2]}>
-                <Text type="Label" color={Colors.RobRoy}>
-                  {t('freezer_temperature')}
-                </Text>
-                <Text
-                  style={styles.humidityValue}
-                  type="H3"
-                  color={Colors.White}
-                  semibold
-                >
-                  {'103 PPM'}
-                </Text>
-                <Text
-                  style={styles.humidityValue}
-                  type="H4"
-                  color={Colors.CornflowerBlu}
-                  semibold
-                >
-                  {t('safe')}
-                </Text>
-              </View>
-              <View style={[styles.wrapDes, styles.wrapDes3]}>
-                <Text type="Label" color={Colors.RobRoy}>
-                  {t('freezer_temperature')}
-                </Text>
-                <Text
-                  style={styles.humidityValue}
-                  type="H3"
-                  color={Colors.White}
-                  semibold
-                >
-                  {'8 PPM'}
-                </Text>
-                <Text
-                  style={styles.humidityValue}
-                  type="H4"
-                  color={Colors.Mantis}
-                  semibold
-                >
-                  {t('pure')}
-                </Text>
-              </View>
-            </View>
-          )}
-        </View>
-        <View style={styles.wrapTemp}>
-          <Text type="Label" color={Colors.RobRoy}>
-            {t('electricity')}
-          </Text>
-          {isDisconnected ? (
-            <Text
-              style={styles.humidityValue}
-              type="H3"
-              color={Colors.White}
-              semibold
-            >
-              {t('disconnected')}
-            </Text>
-          ) : (
-            <View style={styles.row}>
-              <View style={[styles.wrapDes, styles.wrapDes2]}>
-                <Text type="Label" color={Colors.RobRoy}>
-                  {t('total_consumption')}
-                </Text>
-                <Text
-                  style={styles.humidityValue}
-                  type="H3"
-                  color={Colors.White}
-                  semibold
-                >
-                  {'4.2 kWh'}
-                </Text>
-                <View style={styles.row}>
-                  <Image
-                    resizeMode={'stretch'}
-                    source={Images.Dropdown}
-                    style={styles.iconDropDown}
-                  />
-                  <Text style={styles.desElectric}>
-                    {t('than_yesterday', { percent: 12 })}
-                  </Text>
-                </View>
-              </View>
-              <View style={[styles.wrapDes, styles.wrapDes3]}>
-                <Text type="Label" color={Colors.RobRoy}>
-                  {t('cost_of_use')}
-                </Text>
-                <Text
-                  style={styles.humidityValue}
-                  type="H3"
-                  color={Colors.White}
-                  semibold
-                >
-                  {'21,000 VND'}
-                </Text>
-                <View style={styles.row}>
-                  <Image
-                    resizeMode={'stretch'}
-                    source={Images.Dropdown}
-                    style={[styles.iconDropDown, styles.iconDropDown2]}
-                  />
-                  <Text style={styles.desElectric}>
-                    {t('than_yesterday', { percent: 0.01 })}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          )}
-          {renderTimeDisConnect()}
-        </View>
+        {
+          !!listStation[indexStation] && !!listStation[indexStation].devices && listStation[indexStation].devices.map((device) => {
+            return (
+              <Device device={device} key={device.id.toString()} />
+            )
+          })
+        }
       </ScrollView>
     );
-  }, [status]);
+  }, [indexStation, unit]);
 
   return (
     <View style={styles.wrap}>
@@ -284,7 +93,7 @@ const Dashboard = () => {
           {moment().format('LL')}
         </Text>
         <View style={styles.rightHeader}>
-          <TouchableOpacity style={styles.commonButton}>
+          <TouchableOpacity style={styles.commonButton} onPress={reload}>
             <Image source={Images.Reload} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.commonButton}>
